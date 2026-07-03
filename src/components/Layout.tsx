@@ -41,6 +41,7 @@ export function DashboardLayout({ children, title, subtitle }: { children: React
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
   const isAdmin = user?.role === 'admin'
+  const isDoctor = user?.role === 'doctor'
 
   const signOut = async () => {
     await logout()
@@ -62,7 +63,7 @@ export function DashboardLayout({ children, title, subtitle }: { children: React
         </div>
         <div className="user-summary">
           <Avatar name={user?.name || 'Usuario'} />
-          <div><strong>{user?.name}</strong><small>{isAdmin ? 'Administración' : 'Paciente'}</small></div>
+          <div><strong>{user?.name}</strong><small>{isAdmin ? 'Administración' : isDoctor ? 'Portal médico' : 'Paciente'}</small></div>
         </div>
         <nav className="sidebar-nav" onClick={() => setOpen(false)}>
           {isAdmin ? (
@@ -70,6 +71,11 @@ export function DashboardLayout({ children, title, subtitle }: { children: React
               <NavLink to="/admin"><Home />Resumen</NavLink>
               <NavLink to="/admin/medicos"><HeartPulse />Médicos</NavLink>
               <NavLink to="/citas"><CalendarDays />Citas</NavLink>
+            </>
+          ) : isDoctor ? (
+            <>
+              <NavLink to="/medico"><Home />Mi agenda</NavLink>
+              <NavLink to="/medico/historial"><FileText />Consultas atendidas</NavLink>
             </>
           ) : (
             <>

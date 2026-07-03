@@ -18,6 +18,7 @@ interface AppContextValue {
   createAppointment: (draft: AppointmentDraft) => Promise<Appointment>
   cancelAppointment: (id: string) => Promise<void>
   finishAppointment: (id: string) => Promise<void>
+  completeMedicalConsultation: (id: string, notes: { diagnosis: string; indications: string; prescription: string }) => Promise<void>
   setDoctorAvailability: (id: string, available: boolean) => Promise<void>
   resetDemo: () => void
 }
@@ -39,12 +40,14 @@ function writeLocal<T>(name: string, value: T) {
 }
 
 function profileFromSession(sessionUser: { id: string; email?: string; user_metadata?: Record<string, unknown> }): AppUser {
+  const metadataRole = sessionUser.user_metadata?.role
   return {
     id: sessionUser.id,
     name: String(sessionUser.user_metadata?.full_name || 'Paciente'),
     email: sessionUser.email || '',
     identification: String(sessionUser.user_metadata?.identification || ''),
-    role: sessionUser.user_metadata?.role === 'admin' ? 'admin' : 'patient',
+    role: metadataRole === 'admin' || metadataRole === 'doctor' ? metadataRole : 'patient',
+    doctorId: metadataRole === 'doctor' ? String(sessionUser.user_metadata?.doctor_id || '') : undefined,
   }
 }
 
@@ -76,10 +79,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
     if (!supabase || !user) return
     const client = supabase
     const load = async () => {
+      let appointmentQuery = client.from('appointments').select('*').order('date', { ascending: false })
+      if (user.role === 'patient') appointmentQuery = appointmentQuery.eq('user_id', user.id)
+      if (user.role === 'doctor') appointmentQuery = appointmentQuery.eq('doctor_id', user.doctorId || '')
       const [doctorResult, familyResult, appointmentResult] = await Promise.all([
         client.from('doctors').select('*').order('name'),
         client.from('family_members').select('*').eq('user_id', user.id).order('name'),
-        client.from('appointments').select('*').eq('user_id', user.id).order('date', { ascending: false }),
+        appointmentQuery,
       ])
       if (doctorResult.data?.length) {
         setDoctors(doctorResult.data.map((d) => ({
@@ -120,6 +126,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
           paid: a.paid,
           roomName: a.room_name,
           createdAt: a.created_at,
+          diagnosis: a.diagnosis || '',
+          indications: a.indications || '',
+          prescription: a.prescription || '',
         })))
       }
     }
@@ -259,6 +268,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const cancelAppointment = (id: string) => updateAppointmentStatus(id, 'cancelled')
   const finishAppointment = (id: string) => updateAppointmentStatus(id, 'completed')
 
+  const completeMedicalConsultation = async (id: string, notes: { diagnosis: string; indications: string; prescription: string }) => {
+    if (supabase) {
+      const { error } = await supabase.from('appointments').update({
+        status: 'completed',
+        diagnosis: notes.diagnosis,
+        indications: notes.indications,
+        prescription: notes.prescription,
+      }).eq('id', id)
+      if (error) throw error
+    }
+    setAppointments((items) => items.map((item) => item.id === id ? { ...item, status: 'completed', ...notes } : item))
+  }
+
   const setDoctorAvailability = async (id: string, available: boolean) => {
     if (supabase) await supabase.from('doctors').update({ available }).eq('id', id)
     const next = doctors.map((item) => (item.id === id ? { ...item, available } : item))
@@ -280,7 +302,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     dataMode: isSupabaseConfigured ? 'supabase' : 'demo',
     doctors,
     family: user ? family.filter((item) => item.userId === user.id || user.id === DEMO_USER.id) : [],
-    appointments: user?.role === 'admin' ? appointments : appointments.filter((item) => item.userId === user?.id),
+    appointments: user?.role === 'admin'
+      ? appointments
+      : user?.role === 'doctor'
+        ? appointments.filter((item) => item.doctorId === user.doctorId)
+        : appointments.filter((item) => item.userId === user?.id),
     login,
     register,
     logout,
@@ -289,6 +315,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     createAppointment,
     cancelAppointment,
     finishAppointment,
+    completeMedicalConsultation,
     setDoctorAvailability,
     resetDemo,
   }), [user, loading, doctors, family, appointments])

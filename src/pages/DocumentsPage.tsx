@@ -24,7 +24,10 @@ export function DocumentsPage() {
     return <DashboardLayout title="Documentos" subtitle="Recetas, recomendaciones y certificados demostrativos."><div className="card empty-state"><FileText /><h2>Aún no tienes documentos</h2><p>Finaliza una videoconsulta para generar el resumen demostrativo.</p><Link className="button button-primary" to="/citas">Ver mis citas</Link></div></DashboardLayout>
   }
 
-  const report = `SALUDCONECTA - RESUMEN POST-CONSULTA\nPROTOTIPO ACADÉMICO - SIN VALIDEZ MÉDICA\n\nPaciente: ${appointment.patientName}\nMédico: ${appointment.doctorName}\nEspecialidad: ${appointment.specialty}\nFecha: ${appointment.date}\n\nRecomendaciones demostrativas:\n- Mantener hidratación y reposo según necesidad.\n- Solicitar valoración presencial si los síntomas empeoran.\n- En caso de emergencia, acudir inmediatamente a un centro asistencial.\n\nEste documento es ficticio y se genera únicamente para demostrar el sistema.`
+  const diagnosis = appointment.diagnosis || 'Consulta general de seguimiento (dato demostrativo).'
+  const indications = appointment.indications || 'Mantener hidratación, observar signos de alarma y solicitar valoración presencial si los síntomas empeoran.'
+  const prescription = appointment.prescription || 'No se registra medicación en este prototipo académico.'
+  const report = `SALUDCONECTA - RESUMEN POST-CONSULTA\nPROTOTIPO ACADÉMICO - SIN VALIDEZ MÉDICA\n\nPaciente: ${appointment.patientName}\nMédico: ${appointment.doctorName}\nEspecialidad: ${appointment.specialty}\nFecha: ${appointment.date}\n\nDiagnóstico demostrativo:\n${diagnosis}\n\nIndicaciones:\n${indications}\n\nPrescripción simulada:\n${prescription}\n\nEste documento es ficticio y se genera únicamente para demostrar el sistema.`
 
   return (
     <DashboardLayout title="Resumen post-consulta" subtitle="Documentos ficticios generados para la demostración.">
@@ -34,8 +37,9 @@ export function DocumentsPage() {
         <h2>Resumen de videoconsulta</h2>
         <div className="document-meta"><span><strong>Paciente</strong>{appointment.patientName}</span><span><strong>Médico</strong>{appointment.doctorName}</span><span><strong>Fecha</strong>{appointment.date}</span><span><strong>Especialidad</strong>{appointment.specialty}</span></div>
         <section><h3>Motivo registrado</h3><p>{appointment.reason || 'Consulta general de seguimiento.'}</p></section>
-        <section><h3>Recomendaciones de demostración</h3><ul><li>Mantener hidratación y reposo según necesidad.</li><li>Solicitar una valoración presencial si los síntomas empeoran.</li><li>En caso de emergencia, acudir inmediatamente a un centro asistencial.</li></ul></section>
-        <section className="demo-prescription"><h3>Receta médica simulada</h3><p>No se prescribe medicación en este prototipo académico.</p></section>
+        <section><h3>Diagnóstico demostrativo</h3><p>{diagnosis}</p></section>
+        <section><h3>Indicaciones y recomendaciones</h3><p>{indications}</p></section>
+        <section className="demo-prescription"><h3>Receta médica simulada</h3><p>{prescription}</p></section>
         <footer>Este documento no tiene validez médica ni legal. Datos completamente ficticios.</footer>
       </article>
     </DashboardLayout>

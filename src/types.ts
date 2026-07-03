@@ -1,4 +1,4 @@
-export type Role = 'patient' | 'admin'
+export type Role = 'patient' | 'doctor' | 'admin'
 
 export interface AppUser {
   id: string
@@ -6,6 +6,7 @@ export interface AppUser {
   email: string
   identification: string
   role: Role
+  doctorId?: string
 }
 
 export interface FamilyMember {
@@ -46,6 +47,9 @@ export interface Appointment {
   paid: boolean
   roomName: string
   createdAt: string
+  diagnosis?: string
+  indications?: string
+  prescription?: string
 }
 
 export interface AppointmentDraft {

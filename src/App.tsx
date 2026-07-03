@@ -10,14 +10,18 @@ import { ConfirmationPage } from './pages/ConfirmationPage'
 import { ConsultationPage } from './pages/ConsultationPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { DocumentsPage } from './pages/DocumentsPage'
+import { DoctorClosePage } from './pages/DoctorClosePage'
+import { DoctorPage } from './pages/DoctorPage'
 import { FamilyPage } from './pages/FamilyPage'
 import { LandingPage } from './pages/LandingPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { PaymentPage } from './pages/PaymentPage'
 import { WaitingRoomPage } from './pages/WaitingRoomPage'
 
-const patient = (element: ReactNode) => <ProtectedRoute>{element}</ProtectedRoute>
-const admin = (element: ReactNode) => <ProtectedRoute admin>{element}</ProtectedRoute>
+const secured = (element: ReactNode) => <ProtectedRoute>{element}</ProtectedRoute>
+const patient = (element: ReactNode) => <ProtectedRoute role="patient">{element}</ProtectedRoute>
+const doctor = (element: ReactNode) => <ProtectedRoute role="doctor">{element}</ProtectedRoute>
+const admin = (element: ReactNode) => <ProtectedRoute role="admin">{element}</ProtectedRoute>
 
 export default function App() {
   return (
@@ -33,9 +37,12 @@ export default function App() {
           <Route path="/confirmacion/:id" element={patient(<ConfirmationPage />)} />
           <Route path="/citas" element={patient(<AppointmentsPage />)} />
           <Route path="/citas/:id/sala" element={patient(<WaitingRoomPage />)} />
-          <Route path="/consulta/:id" element={patient(<ConsultationPage />)} />
+          <Route path="/consulta/:id" element={secured(<ConsultationPage />)} />
           <Route path="/documentos" element={patient(<DocumentsPage />)} />
-          <Route path="/citas/:id/documentos" element={patient(<DocumentsPage />)} />
+          <Route path="/citas/:id/documentos" element={secured(<DocumentsPage />)} />
+          <Route path="/medico" element={doctor(<DoctorPage />)} />
+          <Route path="/medico/historial" element={doctor(<DoctorPage history />)} />
+          <Route path="/medico/citas/:id/cerrar" element={doctor(<DoctorClosePage />)} />
           <Route path="/admin" element={admin(<AdminPage />)} />
           <Route path="/admin/medicos" element={admin(<AdminPage doctorsOnly />)} />
           <Route path="*" element={<NotFoundPage />} />

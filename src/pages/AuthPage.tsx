@@ -14,7 +14,7 @@ export function AuthPage() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  if (user) return <Navigate to={user.role === 'admin' ? '/admin' : '/panel'} replace />
+  if (user) return <Navigate to={user.role === 'admin' ? '/admin' : user.role === 'doctor' ? '/medico' : '/panel'} replace />
 
   const update = (field: keyof typeof form, value: string) => setForm((current) => ({ ...current, [field]: value }))
 
