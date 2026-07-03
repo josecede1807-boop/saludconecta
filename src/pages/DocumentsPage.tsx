@@ -27,13 +27,13 @@ export function DocumentsPage() {
   const diagnosis = appointment.diagnosis || 'Consulta general de seguimiento (dato demostrativo).'
   const indications = appointment.indications || 'Mantener hidratación, observar signos de alarma y solicitar valoración presencial si los síntomas empeoran.'
   const prescription = appointment.prescription || 'No se registra medicación en este prototipo académico.'
-  const report = `SALUDCONECTA - RESUMEN POST-CONSULTA\nPROTOTIPO ACADÉMICO - SIN VALIDEZ MÉDICA\n\nPaciente: ${appointment.patientName}\nMédico: ${appointment.doctorName}\nEspecialidad: ${appointment.specialty}\nFecha: ${appointment.date}\n\nDiagnóstico demostrativo:\n${diagnosis}\n\nIndicaciones:\n${indications}\n\nPrescripción simulada:\n${prescription}\n\nEste documento es ficticio y se genera únicamente para demostrar el sistema.`
+  const report = `VERIS VIDEOCONSULTA - RESUMEN POST-CONSULTA\nPROTOTIPO ACADÉMICO - SIN VALIDEZ MÉDICA\n\nPaciente: ${appointment.patientName}\nMédico: ${appointment.doctorName}\nEspecialidad: ${appointment.specialty}\nFecha: ${appointment.date}\n\nDiagnóstico demostrativo:\n${diagnosis}\n\nIndicaciones:\n${indications}\n\nPrescripción simulada:\n${prescription}\n\nEste documento es ficticio y se genera únicamente para demostrar el sistema.`
 
   return (
     <DashboardLayout title="Resumen post-consulta" subtitle="Documentos ficticios generados para la demostración.">
       <div className="document-actions"><button className="button button-secondary" onClick={() => window.print()}><Printer />Imprimir o guardar como PDF</button><button className="button button-primary" onClick={() => downloadText(`resumen-${appointment.id}.txt`, report)}><Download />Descargar resumen</button></div>
       <article className="document-sheet">
-        <header><div><Stethoscope />SaludConecta</div><span>DOCUMENTO DEMOSTRATIVO</span></header>
+        <header><div><Stethoscope />Veris Videoconsulta</div><span>DOCUMENTO DEMOSTRATIVO</span></header>
         <h2>Resumen de videoconsulta</h2>
         <div className="document-meta"><span><strong>Paciente</strong>{appointment.patientName}</span><span><strong>Médico</strong>{appointment.doctorName}</span><span><strong>Fecha</strong>{appointment.date}</span><span><strong>Especialidad</strong>{appointment.specialty}</span></div>
         <section><h3>Motivo registrado</h3><p>{appointment.reason || 'Consulta general de seguimiento.'}</p></section>

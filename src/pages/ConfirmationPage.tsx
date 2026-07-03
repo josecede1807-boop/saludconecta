@@ -10,7 +10,7 @@ export function ConfirmationPage() {
   if (!appointment) return <Navigate to="/citas" replace />
 
   const downloadReminder = () => {
-    const content = `SALUDCONECTA - RECORDATORIO DE CITA\n\nPaciente: ${appointment.patientName}\nMédico: ${appointment.doctorName}\nEspecialidad: ${appointment.specialty}\nFecha: ${appointment.date}\nHora: ${appointment.time}\nModalidad: Videoconsulta\n\nPrototipo académico.`
+    const content = `VERIS VIDEOCONSULTA - RECORDATORIO DE CITA\n\nPaciente: ${appointment.patientName}\nMédico: ${appointment.doctorName}\nEspecialidad: ${appointment.specialty}\nFecha: ${appointment.date}\nHora: ${appointment.time}\nModalidad: Videoconsulta\n\nPrototipo académico no oficial.`
     const url = URL.createObjectURL(new Blob([content], { type: 'text/plain;charset=utf-8' }))
     const anchor = document.createElement('a')
     anchor.href = url

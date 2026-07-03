@@ -16,12 +16,12 @@ export function ConsultationPage() {
 
   return (
     <div className="consultation-page">
-      <div className="prototype-bar">Prototipo académico — No es un servicio médico real</div>
+      <div className="prototype-bar">Prototipo académico inspirado en Veris Online — No es un servicio oficial</div>
       <header className="consultation-header"><div><strong>{user?.role === 'doctor' ? `Videoconsulta con ${appointment.patientName}` : `Videoconsulta con ${appointment.doctorName}`}</strong><span>{appointment.patientName} · {appointment.specialty}</span></div><button className="button button-danger" onClick={finish}><PhoneOff />{user?.role === 'doctor' ? 'Cerrar y registrar atención' : 'Salir de la consulta'}</button></header>
       <iframe
         className="jitsi-frame"
         src={`https://meet.jit.si/${encodeURIComponent(appointment.roomName)}#config.prejoinPageEnabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=false&interfaceConfig.SHOW_JITSI_WATERMARK=false`}
-        title="Videollamada SaludConecta"
+        title="Videollamada Veris Videoconsulta"
         allow="camera; microphone; fullscreen; display-capture; autoplay"
       />
       <div className="consultation-fallback">Si la sala no carga, revisa tu conexión a internet y los permisos de cámara y micrófono.</div>

@@ -46,8 +46,8 @@ export function AuthPage() {
 
   return (
     <div className="auth-page">
-      <div className="prototype-bar">Prototipo académico — No es un servicio médico real</div>
-      <a className="auth-brand" href="/"><HeartPulse />SaludConecta</a>
+      <div className="prototype-bar">Prototipo académico inspirado en Veris Online — No es un servicio oficial</div>
+      <a className="auth-brand" href="/"><HeartPulse />Veris Videoconsulta</a>
       <main className="auth-card">
         <div className="auth-title"><HeartPulse /><h1>Acceso al portal</h1><p>Gestiona tus videoconsultas en un solo lugar.</p></div>
         <div className="tabs" role="tablist">

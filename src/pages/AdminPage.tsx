@@ -22,7 +22,7 @@ export function AdminPage({ doctorsOnly = false }: { doctorsOnly?: boolean }) {
   }
 
   return (
-    <DashboardLayout title="Resumen administrativo" subtitle="Estado general del prototipo SaludConecta.">
+    <DashboardLayout title="Resumen administrativo" subtitle="Estado general del prototipo Veris Videoconsulta.">
       <section className="metrics-grid">
         <article className="metric card"><span><CalendarDays /></span><div><small>Citas registradas</small><strong>{appointments.length}</strong></div></article>
         <article className="metric card"><span><HeartPulse /></span><div><small>Médicos activos</small><strong>{active}</strong></div></article>

@@ -8,7 +8,7 @@ export function Brand() {
   return (
     <NavLink className="brand" to="/">
       <HeartPulse size={28} />
-      <span>SaludConecta</span>
+      <span>Veris Videoconsulta</span>
     </NavLink>
   )
 }
@@ -17,7 +17,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
   const { user } = useApp()
   return (
     <div className="app-shell">
-      <div className="prototype-bar">Prototipo académico — No es un servicio médico real</div>
+      <div className="prototype-bar">Prototipo académico inspirado en Veris Online — No es un servicio oficial</div>
       <header className="public-header">
         <Brand />
         <nav className="public-nav" aria-label="Navegación principal">
@@ -50,7 +50,7 @@ export function DashboardLayout({ children, title, subtitle }: { children: React
 
   return (
     <div className="dashboard-shell">
-      <div className="prototype-bar">Prototipo académico — No es un servicio médico real</div>
+      <div className="prototype-bar">Prototipo académico inspirado en Veris Online — No es un servicio oficial</div>
       <header className="mobile-header">
         <button className="icon-button" onClick={() => setOpen(true)} aria-label="Abrir menú"><Menu /></button>
         <Brand />
@@ -111,9 +111,9 @@ export function DashboardLayout({ children, title, subtitle }: { children: React
 export function Footer() {
   return (
     <footer className="footer">
-      <strong>SaludConecta</strong>
+      <strong>Veris Videoconsulta</strong>
       <div><a href="#terminos">Términos</a><a href="#privacidad">Privacidad</a><a href="#contacto">Contacto</a></div>
-      <small>© 2026 SaludConecta. Proyecto académico.</small>
+      <small>© 2026 Veris Videoconsulta. Prototipo académico no oficial.</small>
     </footer>
   )
 }
