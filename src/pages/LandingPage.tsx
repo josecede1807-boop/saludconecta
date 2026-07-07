@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom'
 import { PublicLayout } from '../components/Layout'
 
 export function LandingPage() {
+  const specialties = [
+    { name: 'Medicina General', doctor: 'Dra. Ana López', available: true },
+    { name: 'Cardiología', doctor: 'Dr. Carlos Mendoza', available: true },
+    { name: 'Pediatría', doctor: 'Dra. María Gómez', available: true },
+    { name: 'Dermatología', doctor: 'Dr. Javier Méndez', available: false },
+  ]
+
   return (
     <PublicLayout>
       <main>
@@ -38,8 +45,14 @@ export function LandingPage() {
         <section className="section section-tinted" id="especialistas">
           <div className="section-heading"><span className="eyebrow">Especialidades de demostración</span><h2>Profesionales para distintas necesidades</h2></div>
           <div className="specialty-grid">
-            {['Medicina General', 'Cardiología', 'Pediatría', 'Dermatología'].map((item) => (
-              <article className="specialty-card" key={item}><Stethoscope /><strong>{item}</strong><span>Consulta en línea</span></article>
+            {specialties.map((item) => item.available ? (
+              <Link className="specialty-card specialty-card-link" key={item.name} to={`/agendar?especialidad=${encodeURIComponent(item.name)}`}>
+                <Stethoscope /><strong>{item.name}</strong><span>{item.doctor}</span><small>Seleccionar especialidad →</small>
+              </Link>
+            ) : (
+              <div className="specialty-card specialty-card-disabled" key={item.name} aria-disabled="true">
+                <Stethoscope /><strong>{item.name}</strong><span>{item.doctor}</span><small>Temporalmente no disponible</small>
+              </div>
             ))}
           </div>
         </section>

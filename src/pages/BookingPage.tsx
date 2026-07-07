@@ -1,6 +1,6 @@
 import { CalendarDays, Check, ChevronLeft, ChevronRight, HeartPulse, ShieldCheck, UserRound } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Avatar } from '../components/Avatar'
 import { DashboardLayout } from '../components/Layout'
 import { useApp } from '../context/AppContext'
@@ -29,13 +29,14 @@ function nextDates() {
 export function BookingPage() {
   const { user, family, doctors } = useApp()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const [step, setStep] = useState(0)
   const [error, setError] = useState('')
   const [draft, setDraft] = useState<AppointmentDraft>({ patientName: user?.name || '', doctorId: '', date: '', time: '', reason: '', insurance: '' })
   const dates = useMemo(nextDates, [])
   const selectedDoctor = doctors.find((item) => item.id === draft.doctorId)
   const specialties = [...new Set(doctors.filter((doctor) => doctor.available).map((doctor) => doctor.specialty))]
-  const [specialty, setSpecialty] = useState('')
+  const [specialty, setSpecialty] = useState(searchParams.get('especialidad') || '')
 
   const validateStep = () => {
     if (step === 0 && !draft.patientName) return 'Selecciona el paciente.'

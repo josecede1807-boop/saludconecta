@@ -100,6 +100,11 @@ button:disabled { cursor: not-allowed; opacity: 0.6; }
 .specialty-card { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .specialty-card svg { color: var(--blue); }
 .specialty-card span { color: var(--muted); font-size: 14px; }
+.specialty-card small { color: var(--blue); font-weight: 700; }
+.specialty-card-link { cursor: pointer; transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease; }
+.specialty-card-link:hover, .specialty-card-link:focus-visible { transform: translateY(-4px); border-color: var(--blue); box-shadow: 0 12px 26px rgba(0, 95, 154, 0.16); outline: none; }
+.specialty-card-disabled { opacity: 0.58; background: #f4f5f8; }
+.specialty-card-disabled small { color: var(--muted); }
 .cta-section { max-width: 1200px; margin: 70px auto; border-radius: 24px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px; color: white; background: var(--navy); }
 .cta-section svg, .cta-section h2 { color: white; }
 .cta-section h2, .cta-section p { margin: 0; }
